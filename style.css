@@ -1,0 +1,11 @@
+.container {
+  max-width: 1200px;
+}
+
+#chore-name {
+  margin: 10px;
+}
+
+#chore-frequency {
+  margin: 10px;
+}
