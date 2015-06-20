@@ -11,3 +11,9 @@ function __autoload($class_name) {
 }
 
 session_start();
+
+$user = new user($db);
+if(isset($_POST['email']) && isset($_POST['password'])) {
+  $user->create_or_load($_POST['email'], $_POST['password']);
+}
+$user->load();

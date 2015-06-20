@@ -1,6 +1,6 @@
 <?php
 
-include "database.inc";
+include 'database.inc';
 
 if(isset($_GET['action'])) {
   switch ($_GET['action']) {
