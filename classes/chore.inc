@@ -6,31 +6,41 @@ class chore {
   public $id;
   public $name;
   public $frequency;
+  public $size;
   public $last_done;
+  public $last_done_email;
 
   function __construct($db) {
     $this->db = $db;
   }
 
   function load($id) {
+    $this->id = null;
+    $this->name = null;
+    $this->frequency = null;
+    $this->last_done = null;
+
     $result = $this->db->query("SELECT * FROM chore WHERE id=$id");
     if($row = $result->fetch_assoc()) {
       $this->id = $row['id'];
       $this->name = $row['name'];
       $this->frequency = $row['frequency'];
+      $this->size = $row['size'];
     }
 
-    $result = $this->db->query("SELECT * FROM chore_instance WHERE chore_id=$id ORDER BY date DESC LIMIT 1");
+    $result = $this->db->query("SELECT * FROM chore_instance JOIN user using(uid) WHERE chore_id=$id ORDER BY date DESC LIMIT 1");
     if($row = $result->fetch_assoc()) {
       $this->last_done = new DateTime($row['date']);
+      $this->last_done_email = $row['email'];
     }
   }
 
-  function create($name, $frequency) {
-    $this->db->query("INSERT INTO chore(name, frequency) VALUES('$name', '$frequency')");
+  function create($name, $frequency, $size) {
+    $this->db->query("INSERT INTO chore(name, frequency, size) VALUES('$name', '$frequency', $size)");
 
     $this->name = $name;
     $this->frequency = $frequency;
+    $this->size = $size;
     $this->id = $this->db->insert_id;
   }
 
@@ -51,6 +61,7 @@ class chore {
     $output .= '<option value="180">Semi-annually</option>';
     $output .= '<option value="365">Annually</option>';
     $output .= '</select>';
+    $output .= '<label class="sr-only">Size</label><input name="chore-size" id="chore-size" class="form-control" type="number" step="0.25" placeholder="size" />';
     $output .= '<button type="submit" id="chore-button" class="btn btn-primary glyphicon glyphicon-plus"></button>';
     $output .= '</div>';
     $output .= '</form>';
@@ -60,19 +71,21 @@ class chore {
 
   function form_submit() {
     if(isset($_POST['chore-name']) && isset($_POST['chore-frequency'])) {
-      $this->create($_POST['chore-name'], isset($_POST['chore-frequency']));
+      $this->create($_POST['chore-name'], $_POST['chore-frequency'], $_POST['chore-size']);
     }
   }
 
   function display() {
     if(isset($this->last_done)) {
-      $overdue = ((time() - $this->last_done->getTimestamp()) / 86400) - $this->frequency;
+      $overdue = (int) ((time() - $this->last_done->getTimestamp()) / 86400) - $this->frequency;
+      $overdue .= ' days';
     }
     else{
       $overdue = 'Never Done';
     }
 
-    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td><button type="submit" id="chore-done" class="btn btn-primary glyphicon glyphicon-check"></button></td>';
+    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td>' . $this->size . ' hrs</td><td>' . $this->last_done_email . '</td>';
+    print '<td><button type="submit" id="chore-done" class="log btn btn-primary glyphicon glyphicon-check" data-chore_id="' . $this->id . '"></button></td>';
   }
 
   function display_frequency() {
@@ -98,5 +111,11 @@ class chore {
       case 365:
         return 'Annually';
     }
+  }
+
+  function log($uid) {
+    $this->db->query("INSERT INTO chore_instance VALUES($uid, $this->id, NOW())");
+
+    $this->load($this->id);
   }
 }

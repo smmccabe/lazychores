@@ -58,7 +58,7 @@ include "database.inc";
         print $chore->form();
 
         print '<table class="table">';
-        print '<tr><th>Name</th><th>Frequency</th><th>Due</th></tr>';
+        print '<tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th>Last Done By</th></tr>';
 
         $result = $db->query("SELECT id FROM chore ORDER BY name DESC");
         while($row = $result->fetch_assoc()) {
