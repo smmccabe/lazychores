@@ -46,10 +46,11 @@ class chore {
   }
 
   function form() {
-    $output = '<form class="form-inline" method="post">';
+    $output = '<div id="chore-form" class="form-group">';
+    $output .= '<form class="form-inline" method="post">';
     $output .= '<div class="form-group">';
-    $output .= '<label class="sr-only">Name</label><input name="chore-name" id="chore-name" class="form-control" type="text" placeholder="name" />';
-    $output .= '<label class="sr-only">Frequency</label>';
+    $output .= '<div class="col-md-4"><label class="sr-only">Name</label><input name="chore-name" id="chore-name" class="form-control" type="text" placeholder="name" /></div>';
+    $output .= '<div class="col-md-3"><label class="sr-only">Frequency</label>';
     $output .= '<select name="chore-frequency" id="chore-frequency" class="form-control">';
     $output .= '<option value="0">One Time</option>';
     $output .= '<option value="1">Daily</option>';
@@ -61,11 +62,12 @@ class chore {
     $output .= '<option value="90">Quarterly</option>';
     $output .= '<option value="180">Semi-annually</option>';
     $output .= '<option value="365">Annually</option>';
-    $output .= '</select>';
-    $output .= '<label class="sr-only">Size</label><input name="chore-size" id="chore-size" class="form-control" type="number" step="0.25" placeholder="size" />';
-    $output .= '<button type="submit" id="chore-button" class="btn btn-primary glyphicon glyphicon-plus"></button>';
+    $output .= '</select></div>';
+    $output .= '<div class="col-md-4"><label class="sr-only">Size</label><input name="chore-size" id="chore-size" class="form-control" type="number" step="0.25" placeholder="size" /></div>';
+    $output .= '<div class="col-md-1"><button type="submit" id="chore-button" class="btn btn-primary glyphicon glyphicon-plus"></button></div>';
     $output .= '</div>';
     $output .= '</form>';
+    $output .= '</div>';
 
     return $output;
   }
@@ -85,7 +87,7 @@ class chore {
       $overdue = 'Never Done';
     }
 
-    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td>' . $this->size . ' hrs</td><td>' . $this->last_done_email . '</td>';
+    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td>' . $this->size . ' hrs</td><td class="hidden-xs">' . $this->last_done_email . '</td>';
     print '<td><button type="submit" id="chore-done" class="log btn btn-primary glyphicon glyphicon-check" data-chore_id="' . $this->id . '"></button></td>';
   }
 

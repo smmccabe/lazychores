@@ -11,13 +11,17 @@ include 'header.inc';
         print $chore->form();
 
         print '<table id="chore-list" class="table tablesorter">';
-        print '<thead><tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th>Last Done By</th></tr></thead>';
+        print '<thead><tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th class="hidden-xs">Last Done By</th></tr></thead>';
         print '<tbody>';
 
         $result = $db->query("SELECT id FROM chore ORDER BY name DESC");
         while($row = $result->fetch_assoc()) {
           $chore->load($row['id']);
-          print '<tr>' . $chore->display() . '</tr>';
+
+          //@TODO - this doesn't scale great, might have to fix later
+          if (!($chore->frequency == 0 && isset($chore->last_done))) {
+            print '<tr>' . $chore->display() . '</tr>';
+          }
         }
 
         print '</tbody>';

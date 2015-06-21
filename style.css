@@ -2,8 +2,8 @@
   max-width: 1200px;
 }
 
-input {
-  margin: 10px;
+#chore-form .form-group div {
+  padding: 10px;
 }
 
 .page-header a{
@@ -13,4 +13,8 @@ input {
 
 .tablesorter th {
   cursor: pointer;
+}
+
+.chore-size {
+  width: 40px;
 }
