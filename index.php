@@ -3,20 +3,6 @@
 include 'database.inc';
 include 'header.inc';
 
-?>
-
-    <div id="user-wrapper" class="panel panel-default">
-      <div class="panel-heading">Profile</div>
-      <div class="panel-body">
-        <?php
-
-        if(!$user->uid) {
-          print $user->form();
-        }
-
-        print '</div>';
-        print '</div>';
-
         $chore = new chore($db);
         $chore->form_submit();
 
@@ -24,8 +10,9 @@ include 'header.inc';
         print '<div class="panel-heading">Chores</div>';
         print $chore->form();
 
-        print '<table class="table">';
-        print '<tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th>Last Done By</th></tr>';
+        print '<table id="chore-list" class="table tablesorter">';
+        print '<thead><tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th>Last Done By</th></tr></thead>';
+        print '<tbody>';
 
         $result = $db->query("SELECT id FROM chore ORDER BY name DESC");
         while($row = $result->fetch_assoc()) {
@@ -33,6 +20,7 @@ include 'header.inc';
           print '<tr>' . $chore->display() . '</tr>';
         }
 
+        print '</tbody>';
         print '</table>';
 
         print '</div>';

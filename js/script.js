@@ -9,4 +9,8 @@ $(function() {
     });
   });
 
+  $(".datepicker" ).datepicker();
+
+  $("#chore-list").tablesorter();
+
 });

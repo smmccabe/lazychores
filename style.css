@@ -5,3 +5,12 @@
 input {
   margin: 10px;
 }
+
+.page-header a{
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+.tablesorter th {
+  cursor: pointer;
+}

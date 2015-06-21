@@ -19,6 +19,7 @@ class chore {
     $this->name = null;
     $this->frequency = null;
     $this->last_done = null;
+    $this->last_done_email = null;
 
     $result = $this->db->query("SELECT * FROM chore WHERE id=$id");
     if($row = $result->fetch_assoc()) {
