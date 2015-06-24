@@ -46,7 +46,6 @@ class user {
     if($row = $result->fetch_assoc()){
       $this->email = $row['email'];
       $this->name = $row['name'];
-      $_SESSION['uid'] = $this->uid;
       return TRUE;
     }
 
@@ -69,13 +68,15 @@ class user {
   }
 
   function form() {
-    $output = '<form class="form-inline" method="post">';
+    $output = '<div id="user-form" class="form-group">';
+    $output .= '<form class="form-inline" method="post">';
     $output .= '<div class="form-group">';
-    $output .= '<label class="sr-only">Email</label><input name="email" id="user-email" class="form-control" type="email" placeholder="email" />';
-    $output .= '<label class="sr-only">Password</label><input name="password" id="user-password" class="form-control" type="password" placeholder="password" />';
-    $output .= '<button type="submit" id="user-button" class="btn btn-primary glyphicon glyphicon-log-in"></button>';
+    $output .= '<div class="col-md-5"><label class="sr-only">Email</label><input name="email" id="user-email" class="form-control" type="email" placeholder="email" /></div>';
+    $output .= '<div class="col-md-5"><label class="sr-only">Password</label><input name="password" id="user-password" class="form-control" type="password" placeholder="password" /></div>';
+    $output .= '<div class="col-md-2"><button type="submit" id="user-button" class="btn btn-primary glyphicon glyphicon-log-in"></button></div>';
     $output .= '</div>';
     $output .= '</form>';
+    $output .= '</div>';
 
     return $output;
   }

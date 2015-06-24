@@ -15,5 +15,6 @@ session_start();
 $user = new user($db);
 if(isset($_POST['email']) && isset($_POST['password'])) {
   $user->create_or_load($_POST['email'], $_POST['password']);
+  $_SESSION['uid'] = $user->uid;
 }
 $user->load();

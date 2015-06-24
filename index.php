@@ -11,7 +11,7 @@ include 'header.inc';
         print $chore->form();
 
         print '<table id="chore-list" class="table tablesorter">';
-        print '<thead><tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th class="hidden-xs">Last Done By</th></tr></thead>';
+        print '<thead><tr><th>Name</th><th>Frequency</th><th>Due</th><th>Size</th><th class="hidden-xs">Last Done By</th><th></th></tr></thead>';
         print '<tbody>';
 
         $result = $db->query("SELECT id FROM chore ORDER BY name DESC");

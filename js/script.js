@@ -11,6 +11,11 @@ $(function() {
 
   $(".datepicker" ).datepicker();
 
-  $("#chore-list").tablesorter();
+  $("#chore-list").tablesorter({
+
+    textExtraction: function(node) {
+      return node.innerHTML.replace(" days", "");
+    }
+  });
 
 });

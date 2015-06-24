@@ -8,7 +8,7 @@ class chore {
   public $frequency;
   public $size;
   public $last_done;
-  public $last_done_email;
+  public $last_done_user;
 
   function __construct($db) {
     $this->db = $db;
@@ -19,7 +19,7 @@ class chore {
     $this->name = null;
     $this->frequency = null;
     $this->last_done = null;
-    $this->last_done_email = null;
+    $this->last_done_user = new user($this->db);;
 
     $result = $this->db->query("SELECT * FROM chore WHERE id=$id");
     if($row = $result->fetch_assoc()) {
@@ -29,10 +29,10 @@ class chore {
       $this->size = $row['size'];
     }
 
-    $result = $this->db->query("SELECT * FROM chore_instance JOIN user using(uid) WHERE chore_id=$id ORDER BY date DESC LIMIT 1");
+    $result = $this->db->query("SELECT * FROM chore_instance WHERE chore_id=$id ORDER BY date DESC LIMIT 1");
     if($row = $result->fetch_assoc()) {
       $this->last_done = new DateTime($row['date']);
-      $this->last_done_email = $row['email'];
+      $this->last_done_user->load_uid($row['uid']);
     }
   }
 
@@ -84,10 +84,11 @@ class chore {
       $overdue .= ' days';
     }
     else{
-      $overdue = 'Never Done';
+      $overdue = '';
     }
 
-    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td>' . $this->size . ' hrs</td><td class="hidden-xs">' . $this->last_done_email . '</td>';
+    print '<td>' . $this->name . '</td><td>' . $this->display_frequency() . '</td><td>' . $overdue . '</td><td>' . $this->size . ' hrs</td>';
+    print '<td class="hidden-xs"><a href="user.php?uid=' . $this->last_done_user->uid . '">' . $this->last_done_user->email . '</a></td>';
     print '<td><button type="submit" id="chore-done" class="log btn btn-primary glyphicon glyphicon-check" data-chore_id="' . $this->id . '"></button></td>';
   }
 

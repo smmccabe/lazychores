@@ -3,6 +3,10 @@
 }
 
 #chore-form .form-group div {
+  padding: 10px 10px 10px 0px;
+}
+
+#user-form .form-group div {
   padding: 10px;
 }
 
