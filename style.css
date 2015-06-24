@@ -3,7 +3,7 @@
 }
 
 #chore-form .form-group div {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px 0px 10px;
 }
 
 #user-form .form-group div {
@@ -17,8 +17,4 @@
 
 .tablesorter th {
   cursor: pointer;
-}
-
-.chore-size {
-  width: 40px;
 }

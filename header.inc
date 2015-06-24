@@ -52,11 +52,9 @@
 
   <div id="user-wrapper" class="panel panel-default">
     <div class="panel-heading">Login / Create</div>
-    <div class="panel-body">
       <?php
       print $user->form();
       ?>
-    </div>
   </div>
 <?php
 }
